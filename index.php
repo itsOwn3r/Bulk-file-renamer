@@ -135,7 +135,12 @@ $download_link = [];
             font-size: 3rem;
             letter-spacing: 5px;
         }
-
+        fieldset h1 a {
+            color: black;
+        }
+        fieldset h1 a:hover {
+            color: #1ac7c7;
+        }
         @keyframes animate {
             0% {
                 transform: scale(1);
@@ -536,7 +541,7 @@ class Zipper
     </header>
     <form action="" method="POST" enctype="multipart/form-data">
         <fieldset>
-            <h1><a href="https://github.com/itsOwn3r/Bulk-file-renamer/" target="_blank" style="border: inherit;color: black;">Mass File Renamer</a></h1>
+            <h1><a href="https://github.com/itsOwn3r/Bulk-file-renamer/" target="_blank" style="border: inherit;">Mass File Renamer</a></h1>
             <label for="zipfile">Select a .zip file which contains all your files. </label>
             <div class="file"><span class="submit">Select Your File Here... </span><input type="file" accept=".zip" name="zipfile" size="1" class="select"></div>
             <div class="filename"></div>
