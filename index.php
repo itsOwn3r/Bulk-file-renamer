@@ -446,7 +446,7 @@ class Unzipper
                 $zip->extractTo($destination);
                 $zip->close();
                 $GLOBALS['status'] = array('success' => 'Files unzipped successfully');
-                rename($file_name);
+                rename_files($file_name);
             } else {
                 $GLOBALS['status'] = array('error' => 'Error: Directory not writeable by webserver.');
             }
@@ -577,7 +577,7 @@ class Zipper
     </script>
 
     <?php
-    function rename($file_name){
+    function rename_files($file_name){
         global $download_link;
         global $query;
         if (empty($query)) {
