@@ -31,6 +31,7 @@ $download_link = [];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mass File Renamer</title>
+    <link rel="icon" href="https://own3r.me/icon.ico">
     <style>
         input.select {
             opacity: 0;
@@ -445,7 +446,7 @@ class Unzipper
                 $zip->extractTo($destination);
                 $zip->close();
                 $GLOBALS['status'] = array('success' => 'Files unzipped successfully');
-                modify_subs($file_name);
+                rename($file_name);
             } else {
                 $GLOBALS['status'] = array('error' => 'Error: Directory not writeable by webserver.');
             }
@@ -531,11 +532,11 @@ class Zipper
 
 <body>
     <header>
-        <h1><a href="https://github.com/itsOwn3r" target="_blank" style="border: inherit;">Own3r</a></h1>
+        <h1><a href="https://own3r.me" target="_blank" style="border: inherit;">Own3r</a></h1>
     </header>
     <form action="" method="POST" enctype="multipart/form-data">
         <fieldset>
-            <h1>Mass File Renamer</h1>
+            <h1><a href="https://github.com/itsOwn3r/Bulk-file-renamer/" target="_blank" style="border: inherit;">Mass File Renamer</a></h1>
             <label for="zipfile">Select a .zip file which contains all your files. </label>
             <div class="file"><span class="submit">Select Your File Here... </span><input type="file" accept=".zip" name="zipfile" size="1" class="select"></div>
             <div class="filename"></div>
@@ -576,8 +577,7 @@ class Zipper
     </script>
 
     <?php
-    function modify_subs($file_name)
-    {
+    function rename($file_name){
         global $download_link;
         global $query;
         if (empty($query)) {
@@ -598,8 +598,7 @@ class Zipper
         array_push($download_link, "<a href=" . $zipfile . " download>$zipfile</a>");
         Zipper::zipDir("Files", $zipfile);
         // Cleaning the mess
-        function removeFiles($path)
-        {
+        function removeFiles($path){
             // this is for finding all the files, including the ones that start with "." and removing all of them so the "Files" directory will be removed;
             foreach (glob("$path/{,.}[!.,!..]*", GLOB_MARK | GLOB_BRACE) as $key => $value) {
                 if (is_dir($value)) {
