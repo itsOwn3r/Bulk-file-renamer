@@ -30,7 +30,7 @@ $download_link = [];
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Mass File Renamer</title>
+    <title>Bulk File Renamer</title>
     <link rel="icon" href="https://own3r.me/icon.ico">
     <style>
         input.select {
@@ -541,7 +541,7 @@ class Zipper
     </header>
     <form action="" method="POST" enctype="multipart/form-data">
         <fieldset>
-            <h1><a href="https://github.com/itsOwn3r/Bulk-file-renamer/" target="_blank" style="border: inherit;">Mass File Renamer</a></h1>
+            <h1><a href="https://github.com/itsOwn3r/Bulk-file-renamer/" target="_blank" style="border: inherit;">Bulk File Renamer</a></h1>
             <label for="zipfile">Select a .zip file which contains all your files. </label>
             <div class="file"><span class="submit">Select Your File Here... </span><input type="file" accept=".zip" name="zipfile" size="1" class="select"></div>
             <div class="filename"></div>
