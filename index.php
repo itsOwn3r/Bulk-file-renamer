@@ -616,17 +616,19 @@ class Zipper
     function rename_files($file_name){
         global $download_link;
         global $query;
+
         if (empty($query)) {
             $query = "_en";
         }
+
         if (isset($_POST['replacewith'])) {
            $replace_with = strip_tags($_POST['replacewith']); 
         }else{
             $replace_with = "";
         }
-        
-        
+
         unlink("Files/$file_name"); // removing the extrackted zip file
+
         $all_files = glob("Files/*");
         foreach ($all_files as $file) {
             if (strpos($file, $query)) {
@@ -634,6 +636,7 @@ class Zipper
                 rename($file, $new_name);
             }
         }
+        
         // removing old zip files in the root directory
         array_map('unlink', glob("*.zip"));
 
