@@ -96,7 +96,7 @@ $download_link = [];
         fieldset input {
             display: block;
             margin: 5px auto 35px auto !important;
-            border-radius: 5px;
+            border-radius: 10px;
             padding: 5px;
             line-height: 1.4;
             border-color: #4224e7;
@@ -161,7 +161,10 @@ $download_link = [];
 
         label {
             display: block;
-            margin-top: 20px;
+            margin-top: 3em;
+            color: #378de5;
+            font-size: 18px;
+            font-weight: 600;
         }
 
         fieldset {
@@ -239,7 +242,7 @@ $download_link = [];
             border: 0;
             color: #ffffff;
             font-size: 20px;
-            padding: 12px 30px;
+            padding: 12px 60px;
             margin: 10px 0 20px 0;
             text-decoration: none;
             border-radius: 10px;
@@ -254,6 +257,19 @@ $download_link = [];
                 font-weight: 600;
                 text-align: center;
                 letter-spacing: 1px;
+            }
+            #type {
+                padding: 10px 30px;
+                margin: 10px 0;
+                border: 3px solid #378de5;
+                color: #126dcb;
+                font-weight: 600;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+            option {
+                font-size: 17px;
+                border-radius: 10px;
             }
         @media only screen and (max-width: 992px) {
             body {
@@ -274,7 +290,7 @@ $download_link = [];
             }
 
             label {
-                margin-top: 80px;
+                margin-top: 45px;
             }
 
             input.select {
@@ -289,9 +305,9 @@ $download_link = [];
             }
 
             fieldset input {
-                padding: 20px 80px;
+                padding: 20px 60px;
                 margin: 20px auto !important;
-                font-size: 25px;
+                font-size: 20px;
                 font-weight: 600;
             }
 
@@ -547,6 +563,14 @@ class Zipper
             <div class="filename"></div>
             <label for="query">Query that should be removed from all file's name:</label>
             <input type="text" name="query" class="query" placeholder="_en">
+
+            <label for="type">Remove or Replace?</label>
+            <select id="type">
+            <option value="remove">Remove</option>
+            <option value="replace">Replace</option>
+            </select>
+            <div class="replace">
+            </div>
             <input type="submit" name="dounzip" class="submit" value="Let's Go" />
         </fieldset>
         <p class="status status--<?php echo strtoupper(key($GLOBALS['status'])); ?>">
@@ -556,6 +580,13 @@ class Zipper
     </form>
     <div class="download-link"><?php echo (sizeof($download_link) != 0) ?  $download_link[sizeof($download_link) - 1] : "" ?></div>
     <script>
+    document.querySelector("#type").addEventListener("change", (e) => {
+        if(e.target.value === "replace"){
+         document.querySelector(".replace").innerHTML = `<input type="text" name="replacewith" class="replacewith" placeholder="Replace With?">`
+        }else{
+        document.querySelector(".replace").innerHTML = ""
+        }
+    })
         document.querySelector("input.select").addEventListener("change", () => {
             let file = document.querySelector("input.select");
             let fileType = file.files.item(0).name.split(".")
@@ -588,11 +619,18 @@ class Zipper
         if (empty($query)) {
             $query = "_en";
         }
+        if (isset($_POST['replacewith'])) {
+           $replace_with = strip_tags($_POST['replacewith']); 
+        }else{
+            $replace_with = "";
+        }
+        
+        
         unlink("Files/$file_name"); // removing the extrackted zip file
         $all_files = glob("Files/*");
         foreach ($all_files as $file) {
             if (strpos($file, $query)) {
-                $new_name = str_replace($query, "", $file);
+                $new_name = str_replace($query, $replace_with, $file);
                 rename($file, $new_name);
             }
         }
@@ -603,8 +641,8 @@ class Zipper
         array_push($download_link, "<a href=" . $zipfile . " download>$zipfile</a>");
         Zipper::zipDir("Files", $zipfile);
         // Cleaning the mess
-        function removeFiles($path){
-            // this is for finding all the files, including the ones that start with "." and removing all of them so the "Files" directory will be removed;
+        function removeFiles($path){ // cleaning up the mess
+            // this is for finding all the files, including the ones that start with "." and removing all of them so the "Files" directory could be removed;
             foreach (glob("$path/{,.}[!.,!..]*", GLOB_MARK | GLOB_BRACE) as $key => $value) {
                 if (is_dir($value)) {
                     removeFiles($value);
